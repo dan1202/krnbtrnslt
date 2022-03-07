@@ -4,6 +4,7 @@ import  os
 import deepl_api
 import json
 
+
 f = open('src/creidentials.json')
 cred = json.load(f)
 cred['telegram_api'][0]['api_id']
@@ -13,14 +14,25 @@ api_hash = cred['telegram_api'][0]['api_hash']
 username = 'dankingbest'
 
 user_input_channel = [
-    'https://t.me/nexta_live',
-    'https://t.me/liganet',
-    'https://t.me/SBUkr'
+    'https://t.me/znua_live',
+    'https://t.me/ukraina_novosti',
+    'https://t.me/truexanewsua',
+    'https://t.me/grey_zone',
+    'https://t.me/rian_ru',
 ]
 
-user_output_channels = ['t.me/krnbtbot', 'https://t.me/testisla']
+pro_ru = ['grey_zone', 'rian_ru']
+pro_ua = [
+    'znua_live',
+    'ukraina_novosti',
+    'truexanewsua'
+]
 
-client = TelegramClient(f'/tmp/{username}', api_id, api_hash)
+user_output_channels = [
+    'https://t.me/krntrbsltbt'
+]
+
+client = TelegramClient(None, api_id, api_hash)
 
 deepl = deepl_api.DeepL("4654795a-3eff-8d21-1ba2-91d704ab2415")
 
@@ -39,6 +51,13 @@ async def my_event_handler(event):
     text = translations[0]['text']
     msg = f'Sent from {user}: \n {text}'
     for user_output_channel in user_output_channels:
+
+        if user in pro_ru:
+            flag = '🇷🇺'
+        elif user in pro_ua:
+            flag = '🇺🇦'
+        msg = 'Pro' + flag + ' ' + msg
+
         if event.photo:
             await client.send_file(
                 user_output_channel,
