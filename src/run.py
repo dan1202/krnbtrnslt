@@ -11,7 +11,7 @@ cred['telegram_api'][0]['api_id']
 
 api_id = cred['telegram_api'][0]['api_id']
 api_hash = cred['telegram_api'][0]['api_hash']
-username = 'dankingbest'
+username = ''
 
 user_input_channel = [
     'https://t.me/znua_live',
@@ -34,7 +34,7 @@ user_output_channels = [
 
 client = TelegramClient(None, api_id, api_hash)
 
-deepl = deepl_api.DeepL("4654795a-3eff-8d21-1ba2-91d704ab2415")
+deepl = deepl_api.DeepL("")
 
 
 @client.on(events.NewMessage(chats=user_input_channel))
