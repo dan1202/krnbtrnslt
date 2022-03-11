@@ -1,8 +1,11 @@
+import logging
+
 from telethon import TelegramClient, events
 from telethon.errors import SessionPasswordNeededError
-import  os
+import os
 import deepl_api
 import json
+import ocr
 
 
 f = open('src/creidentials.json')
@@ -59,6 +62,12 @@ async def my_event_handler(event):
         msg = 'Pro' + flag + ' ' + msg
 
         if event.photo:
+            try:
+                ocr_text = ocr.ocr(event.photo)
+                if msg != '':
+                    msg = msg + '\n✍ translated from picture:\n' + ocr_text
+            except Exception as e:
+                logging.error(e)
             await client.send_file(
                 user_output_channel,
                 event.photo,

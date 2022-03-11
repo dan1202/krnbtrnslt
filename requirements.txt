@@ -1,2 +1,4 @@
 telethon
 deepl_api
+pytesseract
+translators
