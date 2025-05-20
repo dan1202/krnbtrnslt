@@ -1,2 +1,3 @@
 telethon
 deepl_api
+pytest
