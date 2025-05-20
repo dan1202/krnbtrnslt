@@ -5,9 +5,8 @@ import deepl_api
 import json
 
 
-f = open('src/creidentials.json')
-cred = json.load(f)
-cred['telegram_api'][0]['api_id']
+with open('src/creidentials.json') as f:
+    cred = json.load(f)
 
 api_id = cred['telegram_api'][0]['api_id']
 api_hash = cred['telegram_api'][0]['api_hash']
@@ -52,11 +51,13 @@ async def my_event_handler(event):
     msg = f'Sent from {user}: \n {text}'
     for user_output_channel in user_output_channels:
 
+        flag = ''
         if user in pro_ru:
             flag = '🇷🇺'
         elif user in pro_ua:
             flag = '🇺🇦'
-        msg = 'Pro' + flag + ' ' + msg
+        if flag:
+            msg = 'Pro' + flag + ' ' + msg
 
         if event.photo:
             await client.send_file(
