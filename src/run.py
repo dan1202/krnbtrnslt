@@ -1,13 +1,12 @@
 from telethon import TelegramClient, events
 from telethon.errors import SessionPasswordNeededError
-import  os
+import os
 import deepl_api
 import json
 
 
-f = open('src/creidentials.json')
-cred = json.load(f)
-cred['telegram_api'][0]['api_id']
+with open('src/credentials.json') as f:
+    cred = json.load(f)
 
 api_id = cred['telegram_api'][0]['api_id']
 api_hash = cred['telegram_api'][0]['api_hash']
@@ -32,6 +31,15 @@ user_output_channels = [
     'https://t.me/krntrbsltbt'
 ]
 
+
+def get_flag(username: str) -> str:
+    """Return flag emoji based on the sender username."""
+    if username in pro_ru:
+        return '🇷🇺'
+    if username in pro_ua:
+        return '🇺🇦'
+    return '🏳️'
+
 client = TelegramClient(None, api_id, api_hash)
 
 deepl = deepl_api.DeepL("")
@@ -50,13 +58,9 @@ async def my_event_handler(event):
     )
     text = translations[0]['text']
     msg = f'Sent from {user}: \n {text}'
+    flag = get_flag(user)
+    msg = 'Pro' + flag + ' ' + msg
     for user_output_channel in user_output_channels:
-
-        if user in pro_ru:
-            flag = '🇷🇺'
-        elif user in pro_ua:
-            flag = '🇺🇦'
-        msg = 'Pro' + flag + ' ' + msg
 
         if event.photo:
             await client.send_file(
